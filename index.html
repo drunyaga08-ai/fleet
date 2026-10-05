@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Velocity — Our Fleet</title>
+  <!-- Tailwind CSS (CDN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Google Font Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background-color: #f8fafc;
+      scroll-behavior: smooth;
+    }
+
+    /* ---------- animations ---------- */
+    @keyframes fadeUp {
+      0%   { opacity: 0; transform: translateY(30px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      0%   { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    @keyframes float {
+      0%   { transform: translateY(0px); }
+      50%  { transform: translateY(-8px); }
+      100% { transform: translateY(0px); }
+    }
+    @keyframes pulseSlow {
+      0%   { opacity: 1; }
+      50%  { opacity: 0.6; }
+      100% { opacity: 1; }
+    }
+    .animate-fadeUp {
+      animation: fadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      opacity: 0; /* initial state */
+    }
+    .animate-fadeIn {
+      animation: fadeIn 1s ease forwards;
+      opacity: 0;
+    }
+    .animate-float {
+      animation: float 3s ease-in-out infinite;
+    }
+    .animate-pulse-slow {
+      animation: pulseSlow 2s ease-in-out infinite;
+    }
+
+    /* stagger delays */
+    .delay-100 { animation-delay: 0.1s; }
+    .delay-200 { animation-delay: 0.2s; }
+    .delay-300 { animation-delay: 0.3s; }
+    .delay-400 { animation-delay: 0.4s; }
+    .delay-500 { animation-delay: 0.5s; }
+    .delay-600 { animation-delay: 0.6s; }
+    .delay-700 { animation-delay: 0.7s; }
+    .delay-800 { animation-delay: 0.8s; }
+
+    /* hover lift */
+    .car-card {
+      transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
+    }
+    .car-card:hover {
+      transform: translateY(-6px) scale(1.005);
+      box-shadow: 0 25px 30px -12px rgba(0, 0, 0, 0.15);
+    }
+
+    /* filter pill active */
+    .filter-pill {
+      transition: all 0.2s ease;
+    }
+    .filter-pill.active {
+      background-color: #2563eb;
+      color: white;
+      border-color: #2563eb;
+      box-shadow: 0 4px 12px -4px rgba(37, 99, 235, 0.4);
+    }
+
+    /* smooth link underline */
+    .nav-link {
+      position: relative;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -4px;
+      left: 0;
+      background-color: white;
+      transition: width 0.25s ease;
+    }
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    /* dark nav variant */
+    .nav-link-dark {
+      position: relative;
+    }
+    .nav-link-dark::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -4px;
+      left: 0;
+      background-color: #2563eb;
+      transition: width 0.25s ease;
+    }
+    .nav-link-dark:hover::after {
+      width: 100%;
+    }
+  </style>
+</head>
+<body class="antialiased text-gray-800">
+
+  <!-- ================= NAVIGATION (Fleets page specific) ================= -->
+  <nav class="bg-white shadow-sm border-b border-gray-100 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between h-16">
+      <!-- logo -->
+      <a href="index.html" class="flex items-center gap-2 group">
+        <i class="fas fa-car-side text-2xl text-blue-600 transition-transform group-hover:scale-110"></i>
+        <span class="text-xl font-semibold tracking-tight text-gray-900">Velocity</span>
+      </a>
+      <!-- nav links -->
+      <div class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-600">
+        <a href="index.html" class="nav-link-dark hover:text-blue-600 transition">Home</a>
+        <a href="fleet.html" class="text-blue-600 font-semibold relative">
+          Fleet
+          <span class="absolute -bottom-4 left-0 w-full h-0.5 bg-blue-600 rounded-full"></span>
+        </a>
+        <a href="#" class="nav-link-dark hover:text-blue-600 transition">Locations</a>
+        <a href="#" class="nav-link-dark hover:text-blue-600 transition">Support</a>
+      </div>
+      <!-- sign in -->
+      <button class="bg-blue-600 text-white px-5 py-2 rounded-full text-sm font-medium hover:bg-blue-700 transition shadow-sm hover:shadow-md">
+        Sign in
+      </button>
+    </div>
+  </nav>
+
+  <!-- ================= SECTION 1: FLEET HERO ================= -->
+  <section class="relative bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 overflow-hidden">
+    <!-- decorative circles -->
+    <div class="absolute top-[-20%] left-[-10%] w-96 h-96 bg-blue-600/20 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-[-30%] right-[-10%] w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-3xl"></div>
+
+    <div class="relative max-w-7xl mx-auto px-6 md:px-12 py-20 md:py-28">
+      <div class="max-w-2xl">
+        <span class="inline-block bg-blue-600/20 text-blue-300 text-xs font-semibold tracking-widest uppercase px-4 py-1.5 rounded-full mb-5 animate-fadeUp">
+          <i class="fas fa-car mr-1"></i> Explore our fleet
+        </span>
+        <h1 class="text-4xl md:text-6xl font-bold text-white leading-tight animate-fadeUp delay-100">
+          Every journey<br>
+          <span class="text-blue-400">has a perfect car.</span>
+        </h1>
+        <p class="text-gray-300 mt-6 text-lg leading-relaxed max-w-lg animate-fadeUp delay-200">
+          From eco-friendly hybrids to spacious SUVs — all maintained to the highest standard, ready for your next adventure.
+        </p>
+        <div class="flex flex-wrap gap-4 mt-8 animate-fadeUp delay-300">
+          <a href="#fleet-grid" class="bg-blue-600 hover:bg-blue-500 text-white font-semibold px-7 py-3.5 rounded-xl transition shadow-lg shadow-blue-900/30 inline-flex items-center gap-2">
+            <i class="fas fa-arrow-down text-sm"></i> Browse cars
+          </a>
+          <a href="index.html" class="bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 text-white font-medium px-7 py-3.5 rounded-xl transition inline-flex items-center gap-2">
+            <i class="fas fa-home text-sm"></i> Back home
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SECTION 2: FILTER + FLEET GRID ================= -->
+  <section id="fleet-grid" class="max-w-7xl mx-auto px-6 md:px-12 py-16">
+    <!-- filter row -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12 animate-fadeIn delay-200">
+      <div>
+        <h2 class="text-3xl font-bold text-gray-900">Available now</h2>
+        <p class="text-gray-500 text-sm mt-1"><span class="font-semibold text-gray-700">24 cars</span> ready for pickup</p>
+      </div>
+      <!-- filter pills -->
+      <div class="flex flex-wrap gap-2">
+        <button class="filter-pill active border border-gray-200 bg-white text-gray-600 text-sm font-medium px-4 py-2 rounded-full hover:border-blue-400 transition">All cars</button>
+        <button class="filter-pill border border-gray-200 bg-white text-gray-600 text-sm font-medium px-4 py-2 rounded-full hover:border-blue-400 transition">Economy</button>
+        <button class="filter-pill border border-gray-200 bg-white text-gray-600 text-sm font-medium px-4 py-2 rounded-full hover:border-blue-400 transition">SUV</button>
+        <button class="filter-pill border border-gray-200 bg-white text-gray-600 text-sm font-medium px-4 py-2 rounded-full hover:border-blue-400 transition">Electric</button>
+        <button class="filter-pill border border-gray-200 bg-white text-gray-600 text-sm font-medium px-4 py-2 rounded-full hover:border-blue-400 transition">Luxury</button>
+      </div>
+    </div>
+
+    <!-- car grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+
+      <!-- Car 1 -->
+      <div class="car-card bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden animate-fadeUp delay-100">
+        <div class="relative h-44 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?q=80&w=2070&auto=format&fit=crop');">
+          <span class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-gray-800 text-xs font-semibold px-2.5 py-1 rounded-full shadow">Economy</span>
+        </div>
+        <div class="p-5">
+          <div class="flex justify-between items-start">
+            <div>
+              <h3 class="text-lg font-bold text-gray-900">Toyota Corolla</h3>
+              <p class="text-xs text-gray-500 mt-0.5">Hybrid · 5 seats · Auto</p>
+            </div>
+            <span class="text-blue-600 font-bold text-lg">$49<span class="text-xs text-gray-400 font-normal">/day</span></span>
+          </div>
+          <div class="flex flex-wrap gap-2.5 mt-3 text-xs text-gray-500">
+            <span><i class="fas fa-gas-pump text-blue-500 mr-1"></i>Hybrid</span>
+            <span><i class="fas fa-snowflake text-blue-500 mr-1"></i>A/C</span>
+            <span><i class="fas fa-bluetooth-b text-blue-500 mr-1"></i>BT</span>
+          </div>
+          <button class="mt-4 w-full bg-blue-50 hover:bg-blue-600 text-blue-700 hover:text-white font-semibold py-2.5 rounded-xl transition text-sm">
+            Reserve now
+          </button>
+        </div>
+      </div>
+
+      <!-- Car 2 -->
+      <div class="car-card bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden animate-fadeUp delay-200">
+        <div class="relative h-44 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?q=80&w=2070&auto=format&fit=crop');">
+          <span class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-gray-800 text-xs font-semibold px-2.5 py-1 rounded-full shadow">SUV</span>
+          <span class="absolute top-3 right-3 bg-blue-600 text-white text-xs font-semibold px-2.5 py-1 rounded-full shadow animate-pulse-slow">Popular</span>
+        </div>
+        <div class="p-5">
+          <div class="flex justify-between items-start">
+            <div>
+              <h3 class="text-lg font-bold text-gray-900">Honda CR-V</h3>
+              <p class="text-xs text-gray-500 mt-0.5">Petrol · 5 seats · Auto</p>
+            </div>
+            <span class="text-blue-600 font-bold text-lg">$79<span class="text-xs text-gray-400 font-normal">/day</span></span>
+          </div>
+          <div class="flex flex-wrap gap-2.5 mt-3 text-xs text-gray-500">
+            <span><i class="fas fa-gas-pump text-blue-500 mr-1"></i>Petrol</span>
+            <span><i class="fas fa-snowflake text-blue-500 mr-1"></i>A/C</span>
+            <span><i class="fas fa-usb text-blue-500 mr-1"></i>USB</span>
+          </div>
+          <button class="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-xl transition text-sm shadow-md shadow-blue-200">
+            Reserve now
+          </button>
+        </div>
+      </div>
+
+      <!-- Car 3 -->
+      <div class="car-card bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden animate-fadeUp delay-300">
+        <div class="relative h-44 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1560958089-b8a1929cea89?q=80&w=2071&auto=format&fit=crop');">
+          <span class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-gray-800 text-xs font-semibold px-2.5 py-1 rounded-full shadow">Electric</span>
+        </div>
+        <div class="p-5">
+          <div class="flex justify-between items-start">
+            <div>
+              <h3 class="text-lg font-bold text-gray-900">Tesla Model 3</h3>
+              <p class="text-xs text-gray-500 mt-0.5">Electric · 5 seats · Auto</p>
+            </div>
+            <span class="text-blue-600 font-bold text-lg">$99<span class="text-xs text-gray-400 font-normal">/day</span></span>
+          </div>
+          <div class="flex flex-wrap gap-2.5 mt-3 text-xs text-gray-500">
+            <span><i class="fas fa-bolt text-blue-500 mr-1"></i>Electric</span>
+            <span><i class="fas fa-wifi text-blue-500 mr-1"></i>WiFi</span>
+            <span><i class="fas fa-microchip text-blue-500 mr-1"></i>Autopilot</span>
+          </div>
+          <button class="mt-4 w-full bg-blue-50 hover:bg-blue-600 text-blue-700 hover:text-white font-semibold py-2.5 rounded-xl transition text-sm">
+            Reserve now
+          </button>
+        </div>
+      </div>
+
+      <!-- Car 4 -->
+      <div class="car-card bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden animate-fadeUp delay-400">
+        <div class="relative h-44 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=2070&auto=format&fit=crop');">
+          <span class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-gray-800 text-xs font-semibold px-2.5 py-1 rounded-full shadow">Luxury</span>
+        </div>
+        <div class="p-5">
+          <div class="flex justify-between items-start">
+            <div>
+              <h3 class="text-lg font-bold text-gray-900">BMW 5 Series</h3>
+              <p class="text-xs text-gray-500 mt-0.5">Petrol · 5 seats · Auto</p>
+            </div>
+            <span class="text-blue-600 font-bold text-lg">$129<span class="text-xs text-gray-400 font-normal">/day</span></span>
+          </div>
+          <div class="flex flex-wrap gap-2.5 mt-3 text-xs text-gray-500">
+            <span><i class="fas fa-gas-pump text-blue-500 mr-1"></i>Petrol</span>
+            <span><i class="fas fa-snowflake text-blue-500 mr-1"></i>A/C</span>
+            <span><i class="fas fa-star text-blue-500 mr-1"></i>Premium</span>
+          </div>
+          <button class="mt-4 w-full bg-blue-50 hover:bg-blue-600 text-blue-700 hover:text-white font-semibold py-2.5 rounded-xl transition text-sm">
+            Reserve now
+          </button>
+        </div>
+      </div>
+
+      <!-- Car 5 -->
+      <div class="car-card bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden animate-fadeUp delay-500">
+        <div class="relative h-44 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1580273916550-e323be2ae537?q=80&w=2070&auto=format&fit=crop');">
+          <span class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-gray-800 text-xs font-semibold px-2.5 py-1 rounded-full shadow">SUV</span>
+        </div>
+        <div class="p-5">
+          <div class="flex justify-between items-start">
+            <div>
+              <h3 class="text-lg font-bold text-gray-900">Jeep Wrangler</h3>
+              <p class="text-xs text-gray-500 mt-0.5">Petrol · 5 seats · Manual</p>
+            </div>
+            <span class="text-blue-600 font-bold text-lg">$89<span class="text-xs text-gray-400 font-normal">/day</span></span>
+          </div>
+          <div class="flex flex-wrap gap-2.5 mt-3 text-xs text-gray-500">
+            <span><i class="fas fa-gas-pump text-blue-500 mr-1"></i>Petrol</span>
+            <span><i class="fas fa-mountain text-blue-500 mr-1"></i>4x4</span>
+            <span><i class="fas fa-snowflake text-blue-500 mr-1"></i>A/C</span>
+          </div>
+          <button class="mt-4 w-full bg-blue-50 hover:bg-blue-600 text-blue-700 hover:text-white font-semibold py-2.5 rounded-xl transition text-sm">
+            Reserve now
+          </button>
+        </div>
+      </div>
+
+      <!-- Car 6 -->
+      <div class="car-card bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden animate-fadeUp delay-600">
+        <div class="relative h-44 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1619767886558-efdc259cde1a?q=80&w=2070&auto=format&fit=crop');">
+          <span class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-gray-800 text-xs font-semibold px-2.5 py-1 rounded-full shadow">Economy</span>
+        </div>
+        <div class="p-5">
+          <div class="flex justify-between items-start">
+            <div>
+              <h3 class="text-lg font-bold text-gray-900">VW Golf</h3>
+              <p class="text-xs text-gray-500 mt-0.5">Diesel · 5 seats · Auto</p>
+            </div>
+            <span class="text-blue-600 font-bold text-lg">$55<span class="text-xs text-gray-400 font-normal">/day</span></span>
+          </div>
+          <div class="flex flex-wrap gap-2.5 mt-3 text-xs text-gray-500">
+            <span><i class="fas fa-gas-pump text-blue-500 mr-1"></i>Diesel</span>
+            <span><i class="fas fa-snowflake text-blue-500 mr-1"></i>A/C</span>
+            <span><i class="fas fa-bluetooth-b text-blue-500 mr-1"></i>BT</span>
+          </div>
+          <button class="mt-4 w-full bg-blue-50 hover:bg-blue-600 text-blue-700 hover:text-white font-semibold py-2.5 rounded-xl transition text-sm">
+            Reserve now
+          </button>
+        </div>
+      </div>
+
+      <!-- Car 7 -->
+      <div class="car-card bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden animate-fadeUp delay-700">
+        <div class="relative h-44 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1502877338535-766e1452684a?q=80&w=2070&auto=format&fit=crop');">
+          <span class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-gray-800 text-xs font-semibold px-2.5 py-1 rounded-full shadow">Luxury</span>
+        </div>
+        <div class="p-5">
+          <div class="flex justify-between items-start">
+            <div>
+              <h3 class="text-lg font-bold text-gray-900">Mercedes E-Class</h3>
+              <p class="text-xs text-gray-500 mt-0.5">Petrol · 5 seats · Auto</p>
+            </div>
+            <span class="text-blue-600 font-bold text-lg">$139<span class="text-xs text-gray-400 font-normal">/day</span></span>
+          </div>
+          <div class="flex flex-wrap gap-2.5 mt-3 text-xs text-gray-500">
+            <span><i class="fas fa-gas-pump text-blue-500 mr-1"></i>Petrol</span>
+            <span><i class="fas fa-couch text-blue-500 mr-1"></i>Leather</span>
+            <span><i class="fas fa-star text-blue-500 mr-1"></i>Premium</span>
+          </div>
+          <button class="mt-4 w-full bg-blue-50 hover:bg-blue-600 text-blue-700 hover:text-white font-semibold py-2.5 rounded-xl transition text-sm">
+            Reserve now
+          </button>
+        </div>
+      </div>
+
+      <!-- Car 8 -->
+      <div class="car-card bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden animate-fadeUp delay-800">
+        <div class="relative h-44 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1593941707882-a5bba14938c7?q=80&w=2070&auto=format&fit=crop');">
+          <span class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-gray-800 text-xs font-semibold px-2.5 py-1 rounded-full shadow">Electric</span>
+        </div>
+        <div class="p-5">
+          <div class="flex justify-between items-start">
+            <div>
+              <h3 class="text-lg font-bold text-gray-900">Hyundai Ioniq 5</h3>
+              <p class="text-xs text-gray-500 mt-0.5">Electric · 5 seats · Auto</p>
+            </div>
+            <span class="text-blue-600 font-bold text-lg">$85<span class="text-xs text-gray-400 font-normal">/day</span></span>
+          </div>
+          <div class="flex flex-wrap gap-2.5 mt-3 text-xs text-gray-500">
+            <span><i class="fas fa-bolt text-blue-500 mr-1"></i>Electric</span>
+            <span><i class="fas fa-charging-station text-blue-500 mr-1"></i>Fast charge</span>
+            <span><i class="fas fa-snowflake text-blue-500 mr-1"></i>A/C</span>
+          </div>
+          <button class="mt-4 w-full bg-blue-50 hover:bg-blue-600 text-blue-700 hover:text-white font-semibold py-2.5 rounded-xl transition text-sm">
+            Reserve now
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- view more -->
+    <div class="text-center mt-14 animate-fadeUp delay-500">
+      <button class="inline-flex items-center gap-2 border border-gray-300 hover:border-blue-500 hover:bg-blue-50 text-gray-700 hover:text-blue-700 font-medium px-6 py-3 rounded-xl transition text-sm">
+        <i class="fas fa-plus-circle"></i> Load more cars
+      </button>
+    </div>
+  </section>
+
+  <!-- ================= SECTION 3: CTA BANNER ================= -->
+  <section class="relative bg-blue-600 overflow-hidden mt-8">
+    <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1494976388531-d1058494cdd8?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-10"></div>
+    <div class="absolute top-[-50%] right-[-10%] w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
+    <div class="relative max-w-7xl mx-auto px-6 md:px-12 py-16 md:py-20 flex flex-col md:flex-row items-center justify-between gap-8">
+      <div class="text-center md:text-left animate-fadeUp">
+        <h2 class="text-3xl md:text-4xl font-bold text-white">Didn't find your perfect car?</h2>
+        <p class="text-blue-100 mt-3 max-w-lg text-lg">We have over 200 vehicles across all categories. Talk to our team and we'll match you with the right one.</p>
+      </div>
+      <div class="flex gap-4 animate-fadeUp delay-200">
+        <a href="#" class="bg-white text-blue-700 font-semibold px-7 py-3.5 rounded-xl hover:bg-blue-50 transition shadow-lg inline-flex items-center gap-2">
+          <i class="fas fa-headset"></i> Contact us
+        </a>
+        <a href="index.html" class="bg-transparent border border-white/40 text-white font-medium px-7 py-3.5 rounded-xl hover:bg-white/10 transition inline-flex items-center gap-2">
+          <i class="fas fa-home"></i> Home
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="bg-gray-50 border-t border-gray-200 py-10 text-center text-sm text-gray-400">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex flex-wrap justify-center gap-8 mb-6 text-gray-500">
+        <a href="index.html" class="hover:text-blue-600 transition">Home</a>
+        <a href="fleet.html" class="hover:text-blue-600 transition">Fleet</a>
+        <a href="#" class="hover:text-blue-600 transition">Locations</a>
+        <a href="#" class="hover:text-blue-600 transition">Support</a>
+        <a href="#" class="hover:text-blue-600 transition">Privacy</a>
+      </div>
+      <p>© 2025 Velocity Car Rental — Drive clean, drive free.</p>
+      <p class="mt-1 text-xs">All vehicles are subject to availability. Terms apply.</p>
+    </div>
+  </footer>
+
+  <!-- ================= SCRIPT: filter pills + small animations ================= -->
+  <script>
+    // filter pill active toggle
+    const pills = document.querySelectorAll('.filter-pill');
+    pills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        pills.forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+      });
+    });
+
+    // intersection observer for extra fade-in on scroll (safety)
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = 1;
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+
+    // apply to all cards just in case the animation already set opacity
+    document.querySelectorAll('.car-card').forEach(card => {
+      observer.observe(card);
+    });
+  </script>
+
+</body>
+</html>
